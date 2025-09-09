@@ -19,6 +19,11 @@ class TodoClient:
   def clear(self):
     res = requests.delete(self.dburl)
 
+    try:
+      data = res.json()
+    except ValueError:
+      data = None
+
     if res.json() == None:
       msg = "Success!"
     else:
