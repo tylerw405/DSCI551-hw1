@@ -18,17 +18,8 @@ class TodoClient:
   # if the clear method failed.
   def clear(self):
     res = requests.delete(self.dburl)
-
-    try:
-      data = res.json()
-    except ValueError:
-      data = None
-
-    if res.json() == None:
-      msg = "Success!"
-    else:
-      msg = res.json()
-    return msg
+    data = self.response_check(res)
+    return 'Success!' if data is None else data
 
 
   # if the task exists in the todo list,, 
@@ -103,11 +94,11 @@ class TodoClient:
 
   def response_check(self, res):
     try:
-            data = res.json()
+      data = res.json()
     except ValueError:
-        data = None
+      data = None
 
     if res.status_code == 200:
-        return data
+      return data
     else:
-        return {"error": f"{res.status_code} {res.reason}"}
+      return {"error": f"{res.status_code} {res.reason}"}
