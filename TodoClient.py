@@ -100,3 +100,14 @@ class TodoClient:
     return requests.get(self.dburl).json()
 
   ############ add codes here if needed
+
+  def response_check(self, res):
+    try:
+            data = res.json()
+    except ValueError:
+        data = None
+
+    if res.status_code == 200:
+        return data
+    else:
+        return {"error": f"{res.status_code} {res.reason}"}
